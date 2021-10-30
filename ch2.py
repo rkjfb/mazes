@@ -1,9 +1,10 @@
 import grid
 import binary
+import sidewinder
 
-g = grid.Grid(4, 4)
-c = g.grid[1][2]
-b = binary.BinaryTree(g)
+g = grid.Grid(6, 8)
+# b = binary.BinaryTree(g)
+b = sidewinder.SideWinder(g)
 
 print(g)
 
