@@ -4,6 +4,11 @@ import matplotlib.pyplot as plt
 class Pretty:
 
     def background(self, canvas):
+        #shader = skia.Shaders.Blend(
+        #    skia.BlendMode.kMultiply,
+        #    skia.GradientShader.MakeRadial((self.size/2, self.size/2), 180.0, [0xff8888ff, 0xffff88ff]),
+        #    skia.PerlinNoiseShader.MakeTurbulence(0.025, 0.025, 2, 0.0))
+        #canvas.drawPaint({'Shader': shader})
         canvas.drawColor(skia.ColorWHITE)
 
     def cells(self, canvas):
@@ -11,14 +16,14 @@ class Pretty:
             Style=skia.Paint.kStroke_Style,
             AntiAlias=True,
             StrokeWidth=10,
-            Color=0xff222222)
+            Color=0xff000000)
         paint.setStrokeCap(skia.Paint.kRound_Cap)
 
+        path = skia.Path()
         y = 0
         for row in self.grid.grid:
             x = 0
             for c in row:
-                path = skia.Path()
                 if not c.east in c.links:
                     path.moveTo(x + self.step, y)
                     path.lineTo(x + self.step, y + self.step)
@@ -27,11 +32,11 @@ class Pretty:
                     path.moveTo(x + self.step, y + self.step)
                     path.lineTo(x, y + self.step)
 
-                canvas.drawPath(path, paint)
-
                 x += self.step
 
             y += self.step
+
+        canvas.drawPath(path, paint)
 
 
     def border(self, canvas):
@@ -40,6 +45,19 @@ class Pretty:
             AntiAlias=True,
             StrokeWidth=10,
             Color=skia.Color(0, 0, 0))
+        #paint.setShader(skia.GradientShader.MakeLinear(
+        #    points=[(0.0, 0.0), (self.size, self.size)],
+        #    colors=[0xFFFF0000, 0xFF888800]))
+        paint.setShader(skia.GradientShader.MakeSweep(
+            cx=128.0,
+            cy=128.0,
+            colors=[
+                skia.ColorCYAN,
+                skia.ColorMAGENTA,
+                skia.ColorYELLOW,
+                skia.ColorCYAN
+            ]
+        ))
 
         rect = skia.Rect.MakeXYWH(0, 0, self.step*len(self.grid.grid[0]), self.step*len(self.grid.grid))
         canvas.drawRect(rect, paint)
