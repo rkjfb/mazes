@@ -22,6 +22,8 @@ class DijkstraGrid(grid.Grid):
             frontier = new_frontier
             d += 1
 
+        self.max_cell = max(self.distances, key=self.distances.get)
+
     def cell_count(self, c):
         if self.last_path != None and not c in self.last_path:
             return " "
@@ -51,12 +53,20 @@ class DijkstraGrid(grid.Grid):
 
         # a longest path starts at the furtherest cell from (0,0)
         self.build_distances(self.grid[0][0])
-        origin = max(self.distances, key=self.distances.get)
+        origin = self.max_cell
 
         self.build_distances(origin)
-        dest = max(self.distances, key=self.distances.get)
         
-        self.path_to(dest)
+        self.path_to(self.max_cell)
+
+    # returns a number between 0 and 1. 0= at origin, 1= at furtherest point
+    def dist_weight(self, c):
+        max_dist = self.distances[self.max_cell]
+        return self.distances[c] / max_dist
+
+    # returns a list of cells on the last path set
+    def get_last_path(self):
+        return self.last_path
 
 
 
