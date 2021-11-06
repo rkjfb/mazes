@@ -46,6 +46,18 @@ class DijkstraGrid(grid.Grid):
         self.last_path = path
         return path
 
+    # sets last_path to longest path
+    def set_longest_path(self):
+
+        # a longest path starts at the furtherest cell from (0,0)
+        self.build_distances(self.grid[0][0])
+        origin = max(self.distances, key=self.distances.get)
+
+        self.build_distances(origin)
+        dest = max(self.distances, key=self.distances.get)
+        
+        self.path_to(dest)
+
 
 
 
