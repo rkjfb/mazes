@@ -52,7 +52,7 @@ class Grid:
     def dist_weight(self, c):
         return 1
 
-    def last_path(self):
+    def get_last_path(self):
         return []
 
     # returns a string rep of cell count

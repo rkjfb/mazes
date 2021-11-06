@@ -45,6 +45,7 @@ class DijkstraGrid(grid.Grid):
                     path.append(c)
                     break
 
+        path.reverse()
         self.last_path = path
         return path
 
