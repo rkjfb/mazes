@@ -4,12 +4,12 @@ import sidewinder
 import pretty
 import dijkstra
 
-g = dijkstra.DijkstraGrid(3, 4)
-b = sidewinder.SideWinder(g)
-d = dijkstra.Dijkstra(g, g.grid[0][0])
-g.set_distances(d.distances)
+dg = dijkstra.DijkstraGrid(6, 7)
+b = sidewinder.SideWinder(dg)
+dg.build_distances(dg.grid[0][0])
+dg.path_to(dg.grid[5][0])
 
-print(g)
+print(dg)
 #print(d.distances)
 #p = pretty.Pretty(g)
 

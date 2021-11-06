@@ -1,10 +1,13 @@
 import grid
 
-class Dijkstra:
+class DijkstraGrid(grid.Grid):
 
-    # builds self.distances, measuring the all the distances from root in grid
-    def build_distances(self, grid, root):
+    # builds self.distances, measuring the all the distances from root
+    def build_distances(self, root):
         self.distances = dict()
+        self.root = root
+        self.last_path = None
+
         d = 0
         frontier = [root]
 
@@ -19,20 +22,30 @@ class Dijkstra:
             frontier = new_frontier
             d += 1
 
-
-    def __init__(self, grid, root):
-        self.build_distances(grid, root)
-
-class DijkstraGrid(grid.Grid):
-    def set_distances(self, d):
-        self.distances = d
-
     def cell_count(self, c):
+        if self.last_path != None and not c in self.last_path:
+            return " "
+
         d = self.distances[c]
         base = "0123456789abcdefghijklmnopqrstuvwxyz"
         if d >= len(base):
             raise IndexError(f"{d} is too large for {base}")
         return base[d]
+
+    # return the path to t
+    def path_to(self, t):
+        path = [t]
+        current = t
+        while current != self.root:
+            for c in current.cells():
+                if self.distances[c] < self.distances[current]:
+                    current = c
+                    path.append(c)
+                    break
+
+        self.last_path = path
+        return path
+
 
 
 
