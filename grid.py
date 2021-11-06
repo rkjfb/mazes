@@ -16,6 +16,10 @@ class Cell:
         self.links.add(other)
         other.links.add(self)
 
+    # returns connected neighbouring cells
+    def cells(self):
+        return self.links
+
 class Grid:
     def __init__(self, rows, columns):
         self.grid = list()
@@ -45,6 +49,10 @@ class Grid:
 
         return l
 
+    # returns a string rep of cell count
+    def cell_count(self, c):
+        return " "
+
     def __repr__(self):
         header = "+"
         for i in range(len(self.grid[0])):
@@ -54,10 +62,11 @@ class Grid:
             smid = "|"
             sbot = "+"
             for c in row:
+                smid += f" {self.cell_count(c)} "
                 if c.east in c.links:
-                    smid += "    "
+                    smid += " "
                 else:
-                    smid += "   |"
+                    smid += "|"
 
                 if c.south in c.links:
                     sbot += "   +"
